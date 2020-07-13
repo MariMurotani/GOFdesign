@@ -29,3 +29,10 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+/.bundle
+vendor/bundle
+.project
+.DS_Store
+.idea
+.secret
