@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 2020_07_18_033027) do
     t.date "expected_delivery_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_ordered_products_on_order_id"
   end
 
   create_table "orders", force: :cascade do |t|
