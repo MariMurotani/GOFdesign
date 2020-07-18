@@ -47,13 +47,13 @@ ActiveRecord::Schema.define(version: 2020_07_18_033027) do
 
   create_table "operations", force: :cascade do |t|
     t.string "name"
-    t.integer "type"
+    t.integer "sub_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "ordered_products", force: :cascade do |t|
-    t.integer "order_id"
+    t.bigint "order_id"
     t.integer "product_id"
     t.bigint "quantity"
     t.date "expected_delivery_date"
