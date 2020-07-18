@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2020_07_18_033027) do
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.integer "account_id"
+    t.bigint "account_id"
     t.string "postal_code"
     t.string "street"
     t.string "city"
@@ -35,14 +35,16 @@ ActiveRecord::Schema.define(version: 2020_07_18_033027) do
     t.string "string"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_addresses_on_account_id"
   end
 
   create_table "logs", force: :cascade do |t|
-    t.integer "operation_id"
+    t.bigint "operation_id"
     t.integer "account_id"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["operation_id"], name: "index_logs_on_operation_id"
   end
 
   create_table "operations", force: :cascade do |t|
@@ -54,12 +56,13 @@ ActiveRecord::Schema.define(version: 2020_07_18_033027) do
 
   create_table "ordered_products", force: :cascade do |t|
     t.bigint "order_id"
-    t.integer "product_id"
+    t.bigint "product_id"
     t.bigint "quantity"
     t.date "expected_delivery_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_ordered_products_on_order_id"
+    t.index ["product_id"], name: "index_ordered_products_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
