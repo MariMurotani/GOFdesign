@@ -5,7 +5,7 @@ class CreateProducts < ActiveRecord::Migration[5.2]
       t.string :description
       t.binary :picture
       t.integer :ec_stock_id, null: :false
-      t.string :shop_stock_id, null: :false
+      t.integer :shop_stock_id, null: :false
       t.timestamps
     end
   end

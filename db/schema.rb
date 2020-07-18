@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2020_07_18_033027) do
     t.string "description"
     t.binary "picture"
     t.integer "ec_stock_id"
-    t.string "shop_stock_id"
+    t.integer "shop_stock_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
