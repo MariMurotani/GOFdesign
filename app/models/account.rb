@@ -1,14 +1,14 @@
 class Account < ApplicationRecord
   has_one :order
   has_many :address, dependent: :destroy
-  enum accuont_types: { administrator: 0, shopper: 1 }
+  enum account_type: { administrator: 0, shopper: 1 }
 
-  def self.create_user(target)
+  def self.new_user(target)
     case target
     when 'ADMIN'
-      self.new({account_type: 0})
+      self.new({account_type: Account.account_types[:administrator]})
     when 'SHOPPER'
-      self.new({account_type: 1})
+      self.new({account_type: Account.account_types[:shopper]})
     end
   end
 end
