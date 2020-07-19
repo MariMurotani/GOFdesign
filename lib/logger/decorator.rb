@@ -2,7 +2,6 @@ class Decorator
   def initialize(real_formatter)
     @real_formatter = real_formatter
     @result = []
-    @pos = 1
   end
   def account
     @real_formatter.account

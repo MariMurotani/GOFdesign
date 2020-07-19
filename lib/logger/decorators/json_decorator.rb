@@ -1,6 +1,5 @@
 class JsonDecorator < Decorator
   def self.format_line(row)
-    binding.pry
     @real_formatter.format_line(
       {
         no: @pos,
