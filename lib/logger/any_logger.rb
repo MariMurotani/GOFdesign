@@ -6,34 +6,30 @@ Dir[File.dirname(__FILE__) + '/decorators/*.rb'].each {|file| require file }
 class AnyLogger
   # require "#{Rails.root}/lib/logger/any_logger.rb"
   # logger = AnyLogger.new(Account.last)
+  # logger.add_operation(BugReportCommand, JsonDecorator)
+  # logger.add_operation(DBCommand, QueryDecorator)
+  # logger.add_operation(TextLogCommand, TextDecorator)
+  # logger.add_logs('test1', 'test1test1test1', Operation.last)
+  # logger.add_logs('test2', 'test2test2test2', Operation.last)
+  # logger.add_logs('test3', 'test3test3test3', Operation.last)
+  # logger.flush_logs
   def initialize(account=nil)
     @account = account
-    @commands = []
-    @logs = []
-
-    # Debugコード
-    @account = Account.last
-    @logs << {title: "test1", description: "test1test1test1" ,"operation": Operation.last}
-    @logs << {title: "test2", description: "test1test1test2" ,"operation": Operation.last}
-    @commands << {cmd: BugReportCommand, formatter: JsonDecorator}
-    @commands << {cmd: DBCommand, formatter: QueryDecorator}
-    @commands << {cmd: MailCommand, formatter: HTMLDecorator}
-
+    @commands = Array.new
+    @logs = Array.new
   end
 
-  def self.add_operation(command, decorator)
-    @commands << @commands
-    @decorators << decorator
+  def add_operation(command, decorator)
+    @commands << {cmd: command, formatter: decorator}
   end
 
-  def self.add_logs(title, description, operation)
+  def add_logs(title, description, operation)
     @logs << {title: title, description: description, operation: operation}
   end
 
-  def self.flush_logs
+  def flush_logs
     @commands.each do | commands |
-      binding.pry
-      decorator = commands[:formatter].new(SimpleFormatter.new(commands[:cmd], @account))
+      decorator = commands[:formatter].new(SimpleFormatter.new(commands[:cmd].new, @account))
       @logs.each.each do | log |
         decorator.format_line(log)
       end

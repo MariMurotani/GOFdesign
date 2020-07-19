@@ -8,7 +8,7 @@ class Decorator
     @real_formatter.account
   end
   def format_line(row)
-    @real_formatter.format_line(line)
+    @real_formatter.format_line(row)
   end
   def pos
     @real_formatter.pos
