@@ -2,8 +2,8 @@ require "#{Rails.root}/lib/stock/stock_client.rb"
 class TestController < ApplicationController
   def index
     logger2 = AnyLogger.instance
-    @@logger.add_logs('test','This is test for flush logs', Account.system, Operation.dashboard)
-    render json: {logger1: @@logger.object_id, logger2: logger2.object_id}, status: 200
+    @@any_logger.add_logs('test','This is test for flush logs', Account.system, Operation.dashboard)
+    render json: {logger1: @@any_logger.object_id, logger2: logger2.object_id}, status: 200
   end
 
   def get_stock_list
