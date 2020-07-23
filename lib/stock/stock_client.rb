@@ -8,8 +8,8 @@ def StockClient
     store_stock ||= StoreStock.new
     @store_stock = store_stock
   end
-  def get_stock
-    @store_stock.get_stock_from_store_api
+  def get_stock(id)
+    @store_stock.get_stock_from_store_api(id)
     add_operation_log
   end
   def add_operation_log
@@ -20,8 +20,8 @@ end
 # デフォルトの処理
 # 今まで通りに店舗在庫を取得する
 default_client = StockClient.new
-default_client.get_stock
+default_client.get_stock(3)
 
 # 引数にEC在庫を指定するとインターフェイスを変更せずにEC在庫を取得する
 default_client = StockClient.new(ECClient)
-default_client.get_stock
+default_client.get_stock(3)
