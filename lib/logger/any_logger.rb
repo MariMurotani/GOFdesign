@@ -2,8 +2,10 @@ require "#{Rails.root}/lib/logger/command.rb"
 Dir[File.dirname(__FILE__) + '/commands/*.rb'].each {|file| require file }
 require "#{Rails.root}/lib/logger/decorator.rb"
 Dir[File.dirname(__FILE__) + '/decorators/*.rb'].each {|file| require file }
+require 'singleton'
 
 class AnyLogger
+  include Singleton
   # require "#{Rails.root}/lib/logger/any_logger.rb"
   # logger = AnyLogger.new(Account.last)
   # logger.add_operation(BugReportCommand, JsonDecorator)
