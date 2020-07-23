@@ -1,10 +1,14 @@
 class Account < ApplicationRecord
   has_one :order
   has_many :address, dependent: :destroy
-  enum account_type: { administrator: 0, shopper: 1 }
+  enum account_type: { system: 0, administrator: 1, shopper: 2 }
+
+  scope :system, -> { where(account_type: Account.account_types[:system]).last }
 
   def self.new_user(target)
     case target
+    when 'SYSTEM'
+      self.new({account_type: Account.account_types[:system]})
     when 'ADMIN'
       self.new({account_type: Account.account_types[:administrator]})
     when 'SHOPPER'

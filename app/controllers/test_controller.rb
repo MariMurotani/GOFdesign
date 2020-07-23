@@ -1,4 +1,6 @@
 class TestController < ApplicationController
-  def new
+  def index
+    @@logger.add_logs('test','This is test for flush logs', Operation.dashboard)
+    render json: {}, status: 200
   end
 end

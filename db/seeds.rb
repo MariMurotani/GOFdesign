@@ -5,14 +5,25 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-a1 = Account.new_user('ADMIN')
-a1.name = "Test Admin"
-a1.password = "aaaaaaa"
+a1 = Account.new_user('SYSTEM')
+a1.attributes =	({
+  name: "System User",
+  password: "system"
+})
 a1.save
 
-b1 = Account.new_user('SHOPPER')
-b1.name = "Shop Admin"
-b1.password = "bbbbb"
-b1.save
+a2 = Account.new_user('ADMIN')
+a2.attributes =	({
+  name: "Test Admin",
+  password: "admin"
+})
+a2.save
+
+a3 = Account.new_user('SHOPPER')
+a3.attributes =	({
+  name: "Shop Admin",
+  password: "shop"
+})
+a3.save
 
 Operation.create({sub_type:1, name: "admin dashboard"})
