@@ -1,8 +1,7 @@
 class SimpleFormatter
   attr_reader :account
-  def initialize(command, account)
+  def initialize(command)
     @command = command
-    @account = account
     @result = []
   end
   def format_line(row)

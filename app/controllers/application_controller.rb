@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :create_logger
   after_action :flush_logger
   def create_logger
-    @@logger = AnyLogger.new(Account.system)
+    @@logger = AnyLogger.new
     @@logger.add_operation(BugReportCommand, JsonDecorator)
     @@logger.add_operation(DBCommand, QueryDecorator)
     @@logger.add_operation(TextLogCommand, TextDecorator)

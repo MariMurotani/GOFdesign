@@ -5,7 +5,7 @@ class JsonDecorator < Decorator
         no: @pos,
         title: row[:title],
         description: row[:description],
-        account: self.account.id,
+        account: row[:account].id,
         operation: row[:operation].name
       }.to_json)
   end
