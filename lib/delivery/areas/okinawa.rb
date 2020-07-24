@@ -1,10 +1,10 @@
 module Delivery
-  class EcStock < Step
+  class Okinawa < Step
     def initialize
-      @name = "EC在庫取得時間"
+      @name = "沖縄への配送時間"
     end
     def get_time_required
-      1
+      5
     end
   end
 end

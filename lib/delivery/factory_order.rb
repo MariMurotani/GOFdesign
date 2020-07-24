@@ -1,8 +1,10 @@
-class FactoryOrder < Step
-  def initialize
-    @name = "商品工場発注時間"
-  end
-  def get_time_required
-    5
+module Delivery
+  class FactoryOrder < Step
+    def initialize
+      @name = "工場注文"
+    end
+    def get_time_required
+      1
+    end
   end
 end

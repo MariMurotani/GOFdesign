@@ -25,8 +25,7 @@ class TestController < ApplicationController
     # 関東: 1000000
     # 沖縄: 9000000
     shopper = Account.where(account_type: Account.account_types[:shopper]).last
-    binding.pry
-    order_service = OrderService.new(1,5, "1000000")
-    render json: {delivery_date_time: order_service.get_delivery_date_time, process: order_service.process}, status: 200
+    order_service = OrderService.new(1,3, "1000000")
+    render json: {delivery_date_time: order_service.delivery_date_time, process: order_service.processes}, status: 200
   end
 end

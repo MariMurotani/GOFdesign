@@ -34,18 +34,12 @@ Operation.create({
 product = Product.create({
    name: "テスト商品",
    description: "テスト商品の説明",
-   ec_stock_id: "A00001",
-   store_stock_id: "B00003",
+   ec_stock_id: 1,
+   store_stock_id: 3
 })
 
 stock = Stock.create({
-   product: product,
+   product_id: product.id,
    ec_stock_amount: 3,
    store_stock_amount: 1
 })
-
-stock = Stock.create({
-     product: product,
-     ec_stock_amount: 3,
-     store_stock_amount: 1
- })

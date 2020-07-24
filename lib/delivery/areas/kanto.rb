@@ -1,10 +1,10 @@
 module Delivery
-  class EcStock < Step
+  class Kanto < Step
     def initialize
-      @name = "EC在庫取得時間"
+      @name = "関東への配送時間"
     end
     def get_time_required
-      1
+      2
     end
   end
 end
