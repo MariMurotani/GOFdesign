@@ -26,4 +26,26 @@ a3.attributes =	({
 })
 a3.save
 
-Operation.create({sub_type:1, name: "admin dashboard"})
+Operation.create({
+   sub_type:1,
+   name: "admin dashboard"
+})
+
+product = Product.create({
+   name: "テスト商品",
+   description: "テスト商品の説明",
+   ec_stock_id: "A00001",
+   store_stock_id: "B00003",
+})
+
+stock = Stock.create({
+   product: product,
+   ec_stock_amount: 3,
+   store_stock_amount: 1
+})
+
+stock = Stock.create({
+     product: product,
+     ec_stock_amount: 3,
+     store_stock_amount: 1
+ })
