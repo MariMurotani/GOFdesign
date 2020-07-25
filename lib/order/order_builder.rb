@@ -36,22 +36,21 @@ class OrderBuilder
     end
   end
   def format_order
-    {
-      delivery_method: nil,
-      payment_method: nil,
-      products: {}
+    result = {
+        delivery_method: @order.delivery_method,
+        payment_method: @order.payment_method,
+        products: []
     }
-    [].tap do | result |
+    result[:products].tap do | result |
       @order.ordered_product.each do | product |
         result << {
           name: product.product.name,
           quantity: product.quantity,
-          delivery_method: @order.delivery_method,
-          payment_method: @order.payment_method,
           expected_delivery_date: product[:expected_delivery_date]&.strftime('%Y/%m/%d')
         }
       end if visible_order_details
     end
+    result
   end
   def format_address
     address = @order.account.address.first
