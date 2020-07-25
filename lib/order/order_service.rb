@@ -1,3 +1,6 @@
+require "#{Rails.root}/lib/order/order_builder.rb"
+require "#{Rails.root}/lib/order/order_builder_collection.rb"
+
 require "#{Rails.root}/lib/delivery/step.rb"
 require "#{Rails.root}/lib/delivery/store_stock.rb"
 require "#{Rails.root}/lib/delivery/ec_stock.rb"

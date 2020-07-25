@@ -1,10 +1,6 @@
 class OrderBuilder
-  def initialize(order_id)
-    # リファクタリング前
-    #@order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).find(order_id)
-    query = OrderQuery::WithAccount.new(Order.where({id: order_id})).relation
-    query = OrderQuery::WithProduct.new(query).relation
-    @order = query.last
+  def initialize(order)
+    @order = order
     @mask = false
     @visible_account = false
     @visible_address = false

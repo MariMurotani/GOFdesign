@@ -1,6 +1,8 @@
 require "#{Rails.root}/lib/stock/stock_client_proxy.rb"
 require "#{Rails.root}/lib/order/order_service.rb"
 require "#{Rails.root}/lib/order/order_query.rb"
+require "#{Rails.root}/lib/order/order_builder.rb"
+require "#{Rails.root}/lib/order/order_builder_collection.rb"
 
 class TestController < ApplicationController
   def index
@@ -47,10 +49,32 @@ class TestController < ApplicationController
   end
 
   def order_builder
-    order_builder = OrderBuilder.new(1)
+    # リファクタリング前
+    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).find(1)
+    # リファクタリング後
+    #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
+    #query = OrderQuery::WithProduct.new(query).relation
+
+    order_builder = OrderBuilder.new(@order)
     order_builder.set_mask.visible_account.visible_address.visible_order_details
-    render json: {order: order_builder.to_json}
+    render json: {order: order_builder.to_json}, status: 200
   end
+
+  def order_builder_collection
+    # リファクタリング前
+    @orders = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).limit(5)
+    # リファクタリング後
+    #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
+    #query = OrderQuery::WithProduct.new(query).relation
+    order_builder_collection = OrderBuilderCollection.new(@orders)
+    [].tap do | result |
+      order_builder_collection.each do | order_builder |
+        result << order_builder.set_mask.visible_account.visible_address.visible_order_details.to_json
+      end
+    end
+    render json: {order: order_builder_collection.to_a}, status: 200
+  end
+
 
   def order_query
     shopper = Account.where(account_type: Account.account_types[:shopper]).last
@@ -58,6 +82,6 @@ class TestController < ApplicationController
     query = OrderQuery::WithAccount.new.by_account(shopper)
     query = OrderQuery::WithProduct.new(query.relation).by_product(product).order_by(:name)
     query = query.relation.limit(10)
-    render json: {query: query}
+    render json: {query: query}, status: 200
   end
 end
