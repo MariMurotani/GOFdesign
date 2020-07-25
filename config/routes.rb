@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   get 'test/order_builder'
   get 'test/order_builder_collection'
   get 'test/order_query'
+  get 'test/send_mail_plan'
+  get 'test/send_mail_html'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

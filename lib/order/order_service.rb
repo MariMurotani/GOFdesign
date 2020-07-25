@@ -8,6 +8,10 @@ require "#{Rails.root}/lib/delivery/factory_order.rb"
 require "#{Rails.root}/lib/delivery/packaging.rb"
 require "#{Rails.root}/lib/delivery/delivery.rb"
 
+require "#{Rails.root}/lib/order/report/report.rb"
+require "#{Rails.root}/lib/order/report/text_report.rb"
+require "#{Rails.root}/lib/order/report/html_report.rb"
+
 class OrderService
   attr_reader :processes
   def initialize(product_id, amount, postal_code)

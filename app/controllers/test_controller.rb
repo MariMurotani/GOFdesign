@@ -3,6 +3,9 @@ require "#{Rails.root}/lib/order/order_service.rb"
 require "#{Rails.root}/lib/order/order_query.rb"
 require "#{Rails.root}/lib/order/order_builder.rb"
 require "#{Rails.root}/lib/order/order_builder_collection.rb"
+require "#{Rails.root}/lib/order/report/report.rb"
+require "#{Rails.root}/lib/order/report/text_report.rb"
+require "#{Rails.root}/lib/order/report/html_report.rb"
 
 class TestController < ApplicationController
   def index
@@ -75,7 +78,6 @@ class TestController < ApplicationController
     render json: {order: order_builder_collection.to_a}, status: 200
   end
 
-
   def order_query
     shopper = Account.where(account_type: Account.account_types[:shopper]).last
     product = Product.find(1)
@@ -83,5 +85,55 @@ class TestController < ApplicationController
     query = OrderQuery::WithProduct.new(query.relation).by_product(product).order_by(:name)
     query = query.relation.limit(10)
     render json: {query: query}, status: 200
+  end
+
+  def send_mail_plan
+    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).find(1)
+    # リファクタリング後
+    #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
+    #query = OrderQuery::WithProduct.new(query).relation
+
+    order_builder = OrderBuilder.new(@order)
+    order_builder.set_mask.visible_account.visible_address.visible_order_details
+
+    text_report = TextReport.new(order_builder)
+
+    render plain: text_report.output_report, status: 200
+
+    # mail = Mail.new
+    # mail.from    = "from@example.co.jp"
+    # mail.to      = "to@example.co.jp"
+    # mail.subject = "subject text"
+    #
+    # text_plain = Mail::Part.new do
+    #   body "ruby mail text/plain"
+    # end
+    # mail.text_part = text_plain
+    # #mail.deliver
+  end
+
+  def send_mail_html
+    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).find(1)
+    # リファクタリング後
+    #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
+    #query = OrderQuery::WithProduct.new(query).relation
+
+    order_builder = OrderBuilder.new(@order)
+    order_builder.set_mask.visible_account.visible_address.visible_order_details
+
+    html_report = HTMLReport.new(order_builder)
+
+    render inline: html_report.output_report, status: 200
+
+    # mail = Mail.new
+    # mail.from    = "from@example.co.jp"
+    # mail.to      = "to@example.co.jp"
+    # mail.subject = "subject text"
+    #
+    # text_html = Mail::Part.new do
+    #   body "<h1>ruby mail text/html</h1>"
+    # end
+    # mail.html_part = text_html
+    # #mail.deliver
   end
 end
