@@ -1,16 +1,9 @@
-require "#{Rails.root}/lib/order/order_builder.rb"
-require "#{Rails.root}/lib/order/order_builder_collection.rb"
-
 require "#{Rails.root}/lib/delivery/step.rb"
 require "#{Rails.root}/lib/delivery/store_stock.rb"
 require "#{Rails.root}/lib/delivery/ec_stock.rb"
 require "#{Rails.root}/lib/delivery/factory_order.rb"
 require "#{Rails.root}/lib/delivery/packaging.rb"
 require "#{Rails.root}/lib/delivery/delivery.rb"
-
-require "#{Rails.root}/lib/order/report/report.rb"
-require "#{Rails.root}/lib/order/report/text_report.rb"
-require "#{Rails.root}/lib/order/report/html_report.rb"
 
 class OrderService
   attr_reader :processes

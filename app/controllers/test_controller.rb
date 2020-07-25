@@ -3,9 +3,12 @@ require "#{Rails.root}/lib/order/order_service.rb"
 require "#{Rails.root}/lib/order/order_query.rb"
 require "#{Rails.root}/lib/order/order_builder.rb"
 require "#{Rails.root}/lib/order/order_builder_collection.rb"
-require "#{Rails.root}/lib/order/report/report.rb"
-require "#{Rails.root}/lib/order/report/text_report.rb"
-require "#{Rails.root}/lib/order/report/html_report.rb"
+require "#{Rails.root}/lib/order/report_mail/report.rb"
+require "#{Rails.root}/lib/order/report_mail/text_report.rb"
+require "#{Rails.root}/lib/order/report_mail/html_report.rb"
+
+require "#{Rails.root}/lib/order/report_chat/notify.rb"
+require "#{Rails.root}/lib/order/report_chat/text_formatter.rb"
 
 class TestController < ApplicationController
   def index
@@ -87,7 +90,7 @@ class TestController < ApplicationController
     render json: {query: query}, status: 200
   end
 
-  def send_mail_plan
+  def send_mail_plain
     @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).find(1)
     # リファクタリング後
     #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
@@ -135,5 +138,18 @@ class TestController < ApplicationController
     # end
     # mail.html_part = text_html
     # #mail.deliver
+  end
+
+  def formatter_plain
+    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).find(1)
+    # リファクタリング後
+    #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
+    #query = OrderQuery::WithProduct.new(query).relation
+
+    order_builder = OrderBuilder.new(@order)
+    order_builder.set_mask.visible_account.visible_address.visible_order_details
+
+    notify = Noitfy.new(order_builder, TextFormatter.new)
+    render plain: notify.output_report, status: 200
   end
 end
