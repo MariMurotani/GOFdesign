@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 2020_07_25_035815) do
     t.string "city"
     t.string "state"
     t.string "country"
-    t.string "string"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_addresses_on_account_id"

@@ -44,4 +44,11 @@ class TestController < ApplicationController
       render json: {order: order, ordered_product: ordered_product}, status: 200
     end
   end
+
+
+  def order_builder
+    order_builder = OrderBuilder.new(1)
+    order_builder.set_mask.visible_account.visible_address.visible_order_details
+    render json: {order: order_builder.to_json}
+  end
 end
