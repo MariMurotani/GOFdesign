@@ -28,4 +28,20 @@ class TestController < ApplicationController
     order_service = OrderService.new(1,3, "1000000")
     render json: {delivery_date_time: order_service.delivery_date_time, process: order_service.processes}, status: 200
   end
+
+  def create_order
+    shopper = Account.where(account_type: Account.account_types[:shopper]).last
+    product = Product.find(1)
+    ActiveRecord::Base.transaction do
+      order = Order.create({
+        account: shopper
+      })
+      ordered_product = OrderedProduct.create({
+        order: order,
+        product: product,
+        quantity: 1
+      })
+      render json: {order: order, ordered_product: ordered_product}, status: 200
+    end
+  end
 end
