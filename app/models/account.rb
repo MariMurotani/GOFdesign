@@ -1,5 +1,6 @@
 class Account < ApplicationRecord
   has_one :order
+  has_one :account_rank, dependent: :destroy
   has_many :address, dependent: :destroy
   enum account_type: { system: 0, administrator: 1, shopper: 2 }
 
