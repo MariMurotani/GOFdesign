@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   get 'test/get_delivery_date'
   get 'test/create_order'
   get 'test/order_builder'
+  get 'test/order_query'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

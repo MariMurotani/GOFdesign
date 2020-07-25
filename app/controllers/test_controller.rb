@@ -1,5 +1,6 @@
 require "#{Rails.root}/lib/stock/stock_client_proxy.rb"
 require "#{Rails.root}/lib/order/order_service.rb"
+require "#{Rails.root}/lib/order/order_query.rb"
 
 class TestController < ApplicationController
   def index
@@ -45,10 +46,18 @@ class TestController < ApplicationController
     end
   end
 
-
   def order_builder
     order_builder = OrderBuilder.new(1)
     order_builder.set_mask.visible_account.visible_address.visible_order_details
     render json: {order: order_builder.to_json}
+  end
+
+  def order_query
+    shopper = Account.where(account_type: Account.account_types[:shopper]).last
+    product = Product.find(1)
+    query = OrderQuery::WithAccount.new.by_account(shopper)
+    query = OrderQuery::WithProduct.new(query.relation).by_product(product).order_by(:name)
+    query = query.relation.limit(10)
+    render json: {query: query}
   end
 end
