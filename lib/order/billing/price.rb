@@ -1,5 +1,5 @@
 module Order::Billing
-  module Status
+  module Currency
     YEN = 1
     DOLL = 2
     EURO = 3
@@ -7,10 +7,10 @@ module Order::Billing
   class Price < Operand
     def initialize(price)
       @operand_price = price
-      @bill_type = Order::Billing::Status::YEN
+      @bill_type = Order::Billing::Currency::YEN
     end
     def get_operand_price
-      @operand_price if @bill_type == Status::YEN
+      @operand_price if @bill_type == Currency::YEN
     end
   end
 end

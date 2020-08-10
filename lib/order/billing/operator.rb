@@ -1,7 +1,7 @@
 module Order::Billing
   class Operator
     def execute
-      raise 'Abstract Class !!'
+      raise 'Abstract Method !!'
     end
   end
 end
