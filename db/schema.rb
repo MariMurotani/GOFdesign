@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2020_08_10_025839) do
     t.integer "total_price"
     t.integer "discount_price"
     t.integer "shipping_fee"
+    t.integer "billing_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_bills_on_order_id"

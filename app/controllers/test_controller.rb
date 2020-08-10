@@ -10,6 +10,13 @@ require "#{Rails.root}/lib/order/report_mail/html_report.rb"
 require "#{Rails.root}/lib/order/report_chat/notify.rb"
 require "#{Rails.root}/lib/order/report_chat/text_formatter.rb"
 
+require "#{Rails.root}/lib/order/billing/operand.rb"
+require "#{Rails.root}/lib/order/billing/operator.rb"
+require "#{Rails.root}/lib/order/billing/plus.rb"
+require "#{Rails.root}/lib/order/billing/minus.rb"
+require "#{Rails.root}/lib/order/billing/expression.rb"
+require "#{Rails.root}/lib/order/billing/price.rb"
+
 class TestController < ApplicationController
   def index
     logger2 = AnyLogger.instance
@@ -50,7 +57,23 @@ class TestController < ApplicationController
         product: product,
         quantity: 1
       })
-      render json: {order: order, ordered_product: ordered_product}, status: 200
+
+      total_price = Order::Billing::Price.new(20000)
+      discount_price = Order::Billing::Price.new(20000*0.13)
+      shipping_fee = Order::Billing::Price.new(300)
+
+      discounted_price = Order::Billing::Minus.new(total_price, discount_price).execute
+      billing_amount = Order::Billing::Plus.new(discounted_price, shipping_fee).execute
+
+      order_bill = OrderBill.create({
+        order: order,
+        total_price: total_price.get_operand_price,
+        discount_price: discount_price.get_operand_price,
+        shipping_fee: shipping_fee.get_operand_price,
+        billing_amount: billing_amount.get_operand_price
+      })
+
+      render json: {order: order, ordered_product: ordered_product, order_bill: order_bill}, status: 200
     end
   end
 
