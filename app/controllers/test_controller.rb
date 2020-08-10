@@ -1,23 +1,9 @@
-require "#{Rails.root}/lib/stock/stock_client_proxy.rb"
-require "#{Rails.root}/lib/order/order_service.rb"
-require "#{Rails.root}/lib/order/order_query.rb"
-require "#{Rails.root}/lib/order/order_builder.rb"
-require "#{Rails.root}/lib/order/order_builder_collection.rb"
-require "#{Rails.root}/lib/order/report_mail/report.rb"
-require "#{Rails.root}/lib/order/report_mail/text_report.rb"
-require "#{Rails.root}/lib/order/report_mail/html_report.rb"
-
-require "#{Rails.root}/lib/order/report_chat/notify.rb"
-require "#{Rails.root}/lib/order/report_chat/text_formatter.rb"
-
-require "#{Rails.root}/lib/order/billing/operand.rb"
-require "#{Rails.root}/lib/order/billing/operator.rb"
-require "#{Rails.root}/lib/order/billing/plus.rb"
-require "#{Rails.root}/lib/order/billing/minus.rb"
-require "#{Rails.root}/lib/order/billing/expression.rb"
-require "#{Rails.root}/lib/order/billing/price.rb"
-
 class TestController < ApplicationController
+  before_action :only_development
+
+  def only_development
+    raise StandardError unless Rails.env == "development"
+  end
   def index
     logger2 = AnyLogger.instance
     @@any_logger.add_logs('test','This is test for flush logs', Account.system, Operation.dashboard)
@@ -47,7 +33,7 @@ class TestController < ApplicationController
 
   def create_order
     shopper = Account.where(account_type: Account.account_types[:shopper]).last
-    product = Product.find(1)
+    product = Product.all.last
     ActiveRecord::Base.transaction do
       order = Order.create({
         account: shopper
@@ -79,7 +65,7 @@ class TestController < ApplicationController
 
   def order_builder
     # リファクタリング前
-    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).find(1)
+    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).all.last
     # リファクタリング後
     #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
     #query = OrderQuery::WithProduct.new(query).relation
@@ -114,7 +100,7 @@ class TestController < ApplicationController
   end
 
   def send_mail_plain
-    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).find(1)
+    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).all.last
     # リファクタリング後
     #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
     #query = OrderQuery::WithProduct.new(query).relation
@@ -122,7 +108,7 @@ class TestController < ApplicationController
     order_builder = OrderBuilder.new(@order)
     order_builder.set_mask.visible_account.visible_address.visible_order_details
 
-    text_report = TextReport.new(order_builder)
+    text_report = ReportMail::TextReport.new(order_builder)
 
     render plain: text_report.output_report, status: 200
 
@@ -139,7 +125,7 @@ class TestController < ApplicationController
   end
 
   def send_mail_html
-    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).find(1)
+    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).all.last
     # リファクタリング後
     #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
     #query = OrderQuery::WithProduct.new(query).relation
@@ -147,7 +133,7 @@ class TestController < ApplicationController
     order_builder = OrderBuilder.new(@order)
     order_builder.set_mask.visible_account.visible_address.visible_order_details
 
-    html_report = HTMLReport.new(order_builder)
+    html_report = ReportMail::HTMLReport.new(order_builder)
 
     render inline: html_report.output_report, status: 200
 
@@ -164,15 +150,14 @@ class TestController < ApplicationController
   end
 
   def formatter_plain
-    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).find(1)
+    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).all.last
     # リファクタリング後
     #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
     #query = OrderQuery::WithProduct.new(query).relation
 
     order_builder = OrderBuilder.new(@order)
     order_builder.set_mask.visible_account.visible_address.visible_order_details
-
-    notify = Noitfy.new(order_builder, TextFormatter.new)
+    notify = ReportChat::Notify.new(order_builder, ReportChat::TextFormatter.new)
     render plain: notify.output_report, status: 200
   end
 end

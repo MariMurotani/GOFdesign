@@ -1,4 +1,4 @@
-class Report
+class ReportMail::Report
   def initialize(order_builder)
     @order_builder = order_builder.to_json
   end

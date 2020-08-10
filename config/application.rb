@@ -16,5 +16,11 @@ module GOFdesign
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.active_record.observers = [:order_observer]
+
+    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/lib/logger)
+    config.autoload_paths += %W(#{config.root}/lib/delivery)
+    config.autoload_paths += %W(#{config.root}/lib/order)
+    config.autoload_paths += %W(#{config.root}/lib/stock)
   end
 end

@@ -1,4 +1,4 @@
-class Noitfy
+class ReportChat::Notify
   def initialize(order_builder, formatter)
     @order_builder = order_builder
     @formatter = formatter

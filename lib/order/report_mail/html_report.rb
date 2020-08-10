@@ -1,4 +1,4 @@
-class HTMLReport < Report
+class ReportMail::HTMLReport < ReportMail::Report
   def output_start
     <<"EOS"
 <h1>注文情報</h1>

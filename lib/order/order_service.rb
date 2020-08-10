@@ -1,3 +1,15 @@
+require "#{Rails.root}/lib/order/order_query.rb"
+require "#{Rails.root}/lib/order/order_builder.rb"
+require "#{Rails.root}/lib/order/order_builder_collection.rb"
+
+# require "#{Rails.root}/lib/order/report_mail/report.rb"
+# require "#{Rails.root}/lib/order/report_mail/text_report.rb"
+# require "#{Rails.root}/lib/order/report_mail/html_report.rb"
+#
+# require "#{Rails.root}/lib/order/report_chat/formatter.rb"
+# require "#{Rails.root}/lib/order/report_chat/notify.rb"
+# require "#{Rails.root}/lib/order/report_chat/text_formatter.rb"
+
 require "#{Rails.root}/lib/delivery/step.rb"
 require "#{Rails.root}/lib/delivery/store_stock.rb"
 require "#{Rails.root}/lib/delivery/ec_stock.rb"

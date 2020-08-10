@@ -1,4 +1,4 @@
-class TextReport < Report
+class ReportMail::TextReport < ReportMail::Report
   def output_start
 <<"EOS"
 -------------------------------
