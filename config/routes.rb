@@ -10,5 +10,9 @@ Rails.application.routes.draw do
   get 'test/send_mail_html'
   get 'test/formatter_plain'
   get 'test/formatter_html'
+
+  resource :products do
+    get 'auth_user'
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
