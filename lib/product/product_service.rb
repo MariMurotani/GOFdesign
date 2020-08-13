@@ -37,4 +37,8 @@ class ProductService
       stock.save!
     end
   end
+
+  def list_all(pos=0, limit=10)
+    Product.all.limit(limit).offset(pos)
+  end
 end
