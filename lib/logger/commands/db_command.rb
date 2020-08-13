@@ -1,4 +1,4 @@
-class DBCommand < Command
+class Commands::DBCommand < Command
   def execute(rows)
     return rows.length == 0
     # バルクインサート

@@ -1,4 +1,4 @@
-class TextLogCommand < Command
+class Commands::TextLogCommand < Command
   def initialize
     @file_path = "/tmp/#{Time.zone.now.year}_#{Time.zone.now.month}.log"
   end

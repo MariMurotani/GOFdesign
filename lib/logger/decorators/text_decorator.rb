@@ -1,4 +1,4 @@
-class TextDecorator < Decorator
+class Decorators::TextDecorator < Decorator
   def initialize(real_formatter)
     super
     @pos = 1

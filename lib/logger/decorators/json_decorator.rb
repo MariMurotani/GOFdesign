@@ -1,4 +1,4 @@
-class JsonDecorator < Decorator
+class Decorators::JsonDecorator < Decorator
   def self.format_line(row)
     @real_formatter.format_line(
       {

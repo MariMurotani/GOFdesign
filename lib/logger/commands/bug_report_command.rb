@@ -1,4 +1,4 @@
-class BugReportCommand < Command
+class Commands::BugReportCommand < Command
   def initialize
     @url = 'http://test.jp/'
   end

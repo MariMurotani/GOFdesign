@@ -1,5 +1,5 @@
 require "#{Rails.root}/lib/logger/any_logger.rb"
 @@any_logger = AnyLogger.instance
-@@any_logger.add_operation(BugReportCommand, JsonDecorator)
-@@any_logger.add_operation(DBCommand, QueryDecorator)
-@@any_logger.add_operation(TextLogCommand, TextDecorator)
+@@any_logger.add_operation(Commands::BugReportCommand, Decorators::JsonDecorator)
+@@any_logger.add_operation(Commands::DBCommand, Decorators::QueryDecorator)
+@@any_logger.add_operation(Commands::TextLogCommand, Decorators::TextDecorator)

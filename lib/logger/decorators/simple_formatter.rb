@@ -1,4 +1,4 @@
-class SimpleFormatter
+class Decorators::SimpleFormatter
   attr_reader :account
   def initialize(command)
     @command = command

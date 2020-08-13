@@ -1,4 +1,4 @@
-class QueryDecorator < Decorator
+class Decorators::QueryDecorator < Decorator
   def format_line(row)
     current_time = Time.zone.now
     @real_formatter.format_line(
