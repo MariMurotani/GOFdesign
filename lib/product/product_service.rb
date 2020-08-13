@@ -23,6 +23,18 @@ class ProductService
   end
 
   def update_stock
-    #　TODO:  在庫更新JOBから呼び出されてProductモデルとStockモデルの更新をする
+    Product.all.each do | product |
+      default_client = StockClientProxy.new(@account)
+      store_amount = default_client.get_stock(product.store_stock_id)
+      # 引数にEC在庫を指定するとインターフェイスを変更せずにEC在庫を取得する
+      default_client = StockClientProxy.new(@account,EcStockAdapter.new(ECStock.new))
+      ec_amount = default_client.get_stock(product.ec_stock_id)
+      stock = product.stock || product.build_stock
+      stock.attributes = {
+        ec_stock_amount: ec_amount[:amount],
+        store_stock_amount: store_amount[:amount]
+      }
+      stock.save!
+    end
   end
 end
