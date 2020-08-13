@@ -1,10 +1,9 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user, except: :auth_user
+  before_action :initialize_with_authenticated_user, except: :auth_user
 
   def initialize
     super
-    @product_service = ProductService.new
-    @operation = Operation.where({name: "admin dashboard"}).last
   end
 
   def auth_user
@@ -12,10 +11,13 @@ class ProductsController < ApplicationController
     render json: {token: session[:token]}, status:200
   end
 
+  def initialize_with_authenticated_user
+    @product_service = ProductService.new(@account)
+    @operation = Operation.where({name: "admin dashboard"}).last
+  end
+
   def new
-    params.require([:token])
-    binding.pry
-    @product_service.add_new_product(params)
-    # logger.add_logs('test1', 'test1test1test1', Account.system_user, Operation.last)
+    @product = @product_service.create_or_update(params)
+    render json: @product.to_json, status:200
   end
 end
