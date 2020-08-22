@@ -39,6 +39,6 @@ class ProductService
   end
 
   def list_all(pos=0, limit=10)
-    Product.all.limit(limit).offset(pos)
+    Product.with_stock.all.limit(limit).offset(pos)
   end
 end
