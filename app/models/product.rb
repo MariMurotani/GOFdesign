@@ -1,4 +1,5 @@
 class Product < ApplicationRecord
+  include ActiveModel::Serialization
   has_many :order
   has_one :stock
   scope :with_stock, -> { joins(:stock) }

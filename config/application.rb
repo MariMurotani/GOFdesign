@@ -23,5 +23,6 @@ module GOFdesign
     config.autoload_paths += %W(#{config.root}/lib/order)
     config.autoload_paths += %W(#{config.root}/lib/stock)
     config.autoload_paths += %W(#{config.root}/lib/product)
+    config.autoload_paths += %W(#{config.root}/lib/mypage)
   end
 end

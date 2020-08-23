@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+  include ActiveModel::Serialization
   has_many :ordered_product, dependent: :destroy
   belongs_to :account
   has_one :order_bill
@@ -8,5 +9,15 @@ class Order < ApplicationRecord
   after_initialize :set_default, if: :new_record?
   def set_default
     self.order_status ||= Order.order_statuses["created"]
+  end
+  def attributes
+    {
+      id: nil,
+      delivery_method: nil,
+      payment_method: nil,
+      order_status: nil,
+      created_at: nil,
+      ordered_product: nil
+    }
   end
 end

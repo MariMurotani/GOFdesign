@@ -22,5 +22,11 @@ Rails.application.routes.draw do
     post 'confirm'
     get 'my_order'
   end
+
+  resource :mypage do
+    get 'auth_user'
+    get 'orders'
+  end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
