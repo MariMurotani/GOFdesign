@@ -1,11 +1,17 @@
 class OrderService
   def initialize(account)
-    @order = nil
     @ordered_products = []
     @account = account
+    @order = Order.new({
+       account: @account
+     })
   end
   def add_item(product_id, amount)
     @ordered_products << OrderedProduct.new({product_id: product_id, quantity: amount})
+  end
+  def set_delivery_method(method)
+    @order.delivery_method = Order.delivery_methods["mail"] if method == 'mail'
+    @order.delivery_method = Order.delivery_methods["express"] if method == 'express'
   end
   def estimate_time
     @ordered_products.each do | ordered_products |
@@ -15,9 +21,7 @@ class OrderService
   end
   def save!
     ActiveRecord::Base.transaction do
-      @order = Order.create({
-        account: @account
-      })
+      @order.save!
       @ordered_products.each do | ordered_product |
         delivery_date_time = DeliveryTimeEstimate.new(ordered_product.product, ordered_product.quantity,@account.address.last.postal_code).delivery_date_time
         ordered_product.attributes = {
