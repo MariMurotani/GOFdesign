@@ -1,10 +1,18 @@
 class OrderService
-  def initialize(account)
-    @ordered_products = []
+  attr_reader :order, :ordered_products, :order_bill
+  def initialize(account, order_id=nil)
     @account = account
-    @order = Order.new({
-       account: @account
-     })
+    if order_id.present?
+      @order = Order.find(order_id)
+      @ordered_products = @order.ordered_product
+      @order_bill = @order.order_bill
+    else
+      @order = Order.new({
+         account: @account
+       })
+      @ordered_products = []
+      @order_bill = nil
+    end
   end
   def add_item(product_id, amount)
     @ordered_products << OrderedProduct.new({product_id: product_id, quantity: amount})
@@ -35,7 +43,7 @@ class OrderService
       shipping_fee = Order::Billing::Price.new(300)
       discounted_price = Order::Billing::Minus.new(total_price, discount_price).execute
       billing_amount = Order::Billing::Plus.new(discounted_price, shipping_fee).execute
-      order_bill = OrderBill.create({
+      @order_bill = OrderBill.create({
          order: @order,
          total_price: total_price.get_operand_price,
          discount_price: discount_price.get_operand_price,
@@ -43,6 +51,10 @@ class OrderService
          billing_amount: billing_amount.get_operand_price
       })
     end
+  end
+  def confirm!
+    @order.order_status = Order.order_statuses["confirmed"]
+    @order.save!
   end
   class DeliveryTimeEstimate
     @processes = Array.new

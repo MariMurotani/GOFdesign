@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get 'auth_user'
     post 'new'
     post 'confirm'
+    get 'my_order'
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

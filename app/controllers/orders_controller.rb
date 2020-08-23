@@ -18,9 +18,20 @@ class OrdersController < ApplicationController
     end
     @order_service.set_delivery_method(params[:delivery_method])
     @order_service.save!
+    session[:order_service_id] = @order_service.order.id
     render json: @order_service, status:200
   end
   def confirm
-    
+    @order_service = OrderService.new(@account, session[:order_service_id])
+    raise 'Empty Order error' if @order_service.blank?
+    @order_service.confirm!
+    render json: @order_service, status:200
+  end
+  def my_order
+    product = Product.find(1)
+    query = OrderQuery::WithAccount.new.by_account(@account)
+    query = OrderQuery::WithProduct.new(query.relation).by_product(product).order_by(:name)
+    query = query.relation.limit(10)
+    render json: {query: query}, status: 200
   end
 end
