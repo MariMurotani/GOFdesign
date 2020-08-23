@@ -55,6 +55,17 @@ class OrderService
   def confirm!
     @order.order_status = Order.order_statuses["confirmed"]
     @order.save!
+    order_builder = OrderBuilder.new(@order)
+    order_builder.set_mask.visible_account.visible_address.visible_order_details
+    text_report = ReportMail::TextReport.new(order_builder)
+    mail = Mail.new
+    mail.to = @account.email
+    mail.subject = "注文確定メール"
+    text_plain = Mail::Part.new do
+      body "ruby mail text/plain"
+    end
+    mail.text_part = text_plain
+    #mail.deliver
   end
   class DeliveryTimeEstimate
     @processes = Array.new
