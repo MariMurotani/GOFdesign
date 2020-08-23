@@ -1,44 +1,68 @@
-require "#{Rails.root}/lib/order/order_query.rb"
-require "#{Rails.root}/lib/order/order_builder.rb"
-require "#{Rails.root}/lib/order/order_builder_collection.rb"
-
-# require "#{Rails.root}/lib/order/report_mail/report.rb"
-# require "#{Rails.root}/lib/order/report_mail/text_report.rb"
-# require "#{Rails.root}/lib/order/report_mail/html_report.rb"
-#
-# require "#{Rails.root}/lib/order/report_chat/formatter.rb"
-# require "#{Rails.root}/lib/order/report_chat/notify.rb"
-# require "#{Rails.root}/lib/order/report_chat/text_formatter.rb"
-
-require "#{Rails.root}/lib/delivery/step.rb"
-require "#{Rails.root}/lib/delivery/store_stock.rb"
-require "#{Rails.root}/lib/delivery/ec_stock.rb"
-require "#{Rails.root}/lib/delivery/factory_order.rb"
-require "#{Rails.root}/lib/delivery/packaging.rb"
-require "#{Rails.root}/lib/delivery/delivery.rb"
-
 class OrderService
-  attr_reader :processes
-  def initialize(product_id, amount, postal_code)
-    @processes = Array.new
-    @product = Product.includes(:stock).find(product_id)
-    @amount = amount
-    @postal_code = postal_code
+  def initialize(account)
+    @order = nil
+    @ordered_products = []
+    @account = account
   end
-  def delivery_date_time
-    self.define_delivery_process
-    time_required = @processes.map(&:get_time_required)
-    Time.zone.now.since((time_required.sum).days)
+  def add_item(product_id, amount)
+    @ordered_products << OrderedProduct.new({product_id: product_id, quantity: amount})
   end
-  def define_delivery_process
-    if (@product.stock.ec_stock_amount + @product.stock.store_stock_amount) < @amount
-      @processes << Delivery::FactoryOrder.new
-    elsif @product.stock.ec_stock_amount > @amount
-      @processes << Delivery::EcStock.new
-    else
-      @processes << Delivery::StoreStock.new
+  def estimate_time
+    @ordered_products.each do | ordered_products |
+      product = Product.includes(:stock).find(ordered_products.id)
+      DeliveryTimeEstimate.new(product, ordered_products.amount, postal_code)
     end
-    @processes << Delivery::Delivery.new(@postal_code)
-    @processes << Delivery::Packaging.new
+  end
+  def save!
+    ActiveRecord::Base.transaction do
+      @order = Order.create({
+        account: @account
+      })
+      @ordered_products.each do | ordered_product |
+        delivery_date_time = DeliveryTimeEstimate.new(ordered_product.product, ordered_product.quantity,@account.address.last.postal_code).delivery_date_time
+        ordered_product.attributes = {
+          order: @order,
+          expected_delivery_date: delivery_date_time
+        }
+        ordered_product.save
+      end
+      total_price = Order::Billing::Price.new(@ordered_products.map(&:total_price).sum)
+      discount_price = Order::Billing::Price.new(total_price.get_operand_price*0.13)
+      shipping_fee = Order::Billing::Price.new(300)
+      discounted_price = Order::Billing::Minus.new(total_price, discount_price).execute
+      billing_amount = Order::Billing::Plus.new(discounted_price, shipping_fee).execute
+      order_bill = OrderBill.create({
+         order: @order,
+         total_price: total_price.get_operand_price,
+         discount_price: discount_price.get_operand_price,
+         shipping_fee: shipping_fee.get_operand_price,
+         billing_amount: billing_amount.get_operand_price
+      })
+    end
+  end
+  class DeliveryTimeEstimate
+    @processes = Array.new
+    def initialize(product, amount, postal_code)
+      @processes = Array.new
+      @product = product
+      @amount = amount
+      @postal_code = postal_code
+    end
+    def delivery_date_time
+      self.define_delivery_process
+      time_required = @processes.map(&:get_time_required)
+      Time.zone.now.since((time_required.sum).days)
+    end
+    def define_delivery_process
+      if (@product.stock.ec_stock_amount + @product.stock.store_stock_amount) < @amount
+        @processes << Delivery::FactoryOrder.new
+      elsif @product.stock.ec_stock_amount > @amount
+        @processes << Delivery::EcStock.new
+      else
+        @processes << Delivery::StoreStock.new
+      end
+      @processes << Delivery::Delivery.new(@postal_code)
+      @processes << Delivery::Packaging.new
+    end
   end
 end

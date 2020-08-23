@@ -48,7 +48,8 @@ product = Product.create({
   name: "テスト商品",
   description: "テスト商品の説明",
   ec_stock_id: 1,
-  store_stock_id: 3
+  store_stock_id: 3,
+  price: 1000
 })
 
 stock = Stock.create({
@@ -56,3 +57,20 @@ stock = Stock.create({
   ec_stock_amount: 3,
   store_stock_amount: 1
 })
+
+product2 = Product.create({
+   name: "テスト商品2",
+   description: "テスト商品の説明2",
+   ec_stock_id: 1,
+   store_stock_id: 3,
+   price: 1200
+})
+
+stock2 = Stock.create({
+  product_id: product2.id,
+  ec_stock_amount: 3,
+  store_stock_amount: 1
+})
+
+# Execute after 4.1.2
+UpdateStockInformationJob.new.perform
