@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2020_08_10_025839) do
     t.bigint "account_id"
     t.integer "delivery_method"
     t.integer "payment_method"
+    t.integer "order_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_orders_on_account_id"

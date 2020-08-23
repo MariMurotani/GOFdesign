@@ -20,4 +20,7 @@ class OrdersController < ApplicationController
     @order_service.save!
     render json: @order_service, status:200
   end
+  def confirm
+    
+  end
 end
