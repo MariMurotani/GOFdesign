@@ -1,6 +1,6 @@
 class Account < ApplicationRecord
   include ActiveModel::Serialization
-  has_one :order
+  has_many :order
   has_one :account_rank, dependent: :destroy
   has_many :address, dependent: :destroy
   enum account_type: { system: 0, administrator: 1, shopper: 2 }
