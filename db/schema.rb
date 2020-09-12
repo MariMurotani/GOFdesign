@@ -47,10 +47,11 @@ ActiveRecord::Schema.define(version: 2020_08_10_025839) do
 
   create_table "logs", force: :cascade do |t|
     t.bigint "operation_id"
-    t.integer "account_id"
+    t.bigint "account_id"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_logs_on_account_id"
     t.index ["operation_id"], name: "index_logs_on_operation_id"
   end
 
