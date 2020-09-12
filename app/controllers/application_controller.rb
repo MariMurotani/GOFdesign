@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   end
 
   def flush_logger
-    @@any_logger.flush_logs
+    AnyLogger.instance.flush_logs
   end
 
   def authenticate_user
