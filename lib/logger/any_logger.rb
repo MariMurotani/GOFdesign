@@ -6,7 +6,7 @@ class AnyLogger
     @logs = Array.new
   end
   def add_operation(command, decorator)
-    @commands << {cmd: command, formatter: decorator}
+    @commands << {cmd: command, decorator: decorator}
   end
   def add_logs(title, description, account, operation)
     @logs << {title: title, description: description, account: account, operation: operation}
@@ -15,7 +15,7 @@ class AnyLogger
     @local_logs = @logs.dup
     @logs = Array.new
     @commands.each do | commands |
-      decorator = commands[:formatter].new(Decorators::SimpleFormatter.new(commands[:cmd].new))
+      decorator = commands[:decorator].new(Decorators::SimpleFormatter.new(commands[:cmd].new))
       @local_logs.each do | log |
         decorator.format_line(log)
       end
