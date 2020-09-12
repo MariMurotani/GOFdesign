@@ -6,7 +6,9 @@ class TestController < ApplicationController
   end
   def index
     logger2 = AnyLogger.instance
-    @@any_logger.add_logs('test','This is test for flush logs', Account.system, Operation.dashboard)
+    logger2.add_logs('test','This is test for flush logs 1', Account.system, Operation.dashboard)
+    logger2.flush_logs
+    @@any_logger.add_logs('test','This is test for flush logs 2', Account.system, Operation.dashboard)
     render json: {logger1: @@any_logger.object_id, logger2: logger2.object_id}, status: 200
   end
 
