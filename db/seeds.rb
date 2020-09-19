@@ -45,8 +45,8 @@ Operation.create({
 })
 
 product = Product.create({
-  name: "テスト商品",
-  description: "テスト商品の説明",
+  name: "test 1",
+  description: "test description 1",
   ec_stock_id: 1,
   store_stock_id: 3,
   price: 1000
@@ -59,8 +59,8 @@ stock = Stock.create({
 })
 
 product2 = Product.create({
-   name: "テスト商品2",
-   description: "テスト商品の説明2",
+   name: "test 2",
+   description: "test description 2",
    ec_stock_id: 1,
    store_stock_id: 3,
    price: 1200
