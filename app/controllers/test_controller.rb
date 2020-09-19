@@ -22,13 +22,16 @@ class TestController < ApplicationController
     # 引数にEC在庫を指定するとインターフェイスを変更せずにEC在庫を取得する
     default_client = StockClient.new(EcStockAdapter.new(ECStockClient.new))
     ec_amount = default_client.get_stock(3)
-    render json: {store_amount: store_amount, ec_amount: ec_amount}, status: 200
+    #render json: {store_amount: store_amount, ec_amount: ec_amount}, status: 200
 
     # Proxyデザイン
     # 引数にEC在庫を指定するとインターフェイスを変更せずにEC在庫を取得する
-    #default_client = StockClientProxy.new(system_user,EcStockAdapter.new(ECStockClient.new))
-    #ec_amount = default_client.get_stock(3)
-    #render json: {store_amount: store_amount, ec_amount: ec_amount}, status: 200
+    default_client = StockClientProxy.new(Account.system,EcStockAdapter.new(ECStockClient.new))
+    # StockClientProxy::StockClientProxyAuthenticationError
+    #shopper = Account.where(account_type: Account.account_types[:shopper]).last
+    #default_client = StockClientProxy.new(shopper,EcStockAdapter.new(ECStockClient.new))
+    ec_amount = default_client.get_stock(3)
+    render json: {store_amount: store_amount, ec_amount: ec_amount}, status: 200
   end
 
   def get_delivery_date
