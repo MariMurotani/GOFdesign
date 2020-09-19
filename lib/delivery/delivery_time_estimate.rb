@@ -7,7 +7,7 @@ class DeliveryTimeEstimate
     @amount = amount
     @postal_code = postal_code
   end
-  def delivery_date_time
+  def estimate_delivery_date_time
     self.define_delivery_process
     time_required = @processes.map(&:get_time_required)
     Time.zone.now.since((time_required.sum).days)
