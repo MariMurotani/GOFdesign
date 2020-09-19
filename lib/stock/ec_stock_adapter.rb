@@ -1,4 +1,4 @@
-class EcStockAdapter < StoreStockClient
+class EcStockAdapter < StockClient
   def initialize(ecs)
     @ecs = ecs
   end
