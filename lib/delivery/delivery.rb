@@ -6,9 +6,9 @@ module Delivery
     end
     def get_time_required
       if @postal_code == "1000000"
-        Kanto.new.get_time_required
+        Areas::Kanto.new.get_time_required
       elsif @postal_code == "9000000"
-        Okinawa.new.get_time_required
+        Areas::Okinawa.new.get_time_required
       else
         3
       end

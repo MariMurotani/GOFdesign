@@ -1,5 +1,5 @@
 module Delivery
-  class Kanto < Step
+  class Areas::Kanto < Step
     def initialize
       @name = "関東への配送時間"
     end

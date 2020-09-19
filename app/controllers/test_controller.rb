@@ -37,9 +37,14 @@ class TestController < ApplicationController
   def get_delivery_date
     # 関東: 1000000
     # 沖縄: 9000000
-    shopper = Account.where(account_type: Account.account_types[:shopper]).last
-    order_service = OrderService.new(1,3, "1000000")
-    render json: {delivery_date_time: order_service.delivery_date_time, process: order_service.processes}, status: 200
+    delivery_steps = {
+        factory: Delivery::FactoryOrder.new.get_time_required,
+        ec: Delivery::EcStock.new.get_time_required,
+        store: Delivery::StoreStock.new.get_time_required,
+        delivery: Delivery::Delivery.new("1000000").get_time_required,
+        package: Delivery::Packaging.new
+    }
+    render json: delivery_steps, stuts: 200
   end
 
   def create_order
