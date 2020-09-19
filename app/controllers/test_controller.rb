@@ -19,7 +19,7 @@ class TestController < ApplicationController
     default_client = StockClientProxy.new(system_user)
     store_amount = default_client.get_stock(1)
     # 引数にEC在庫を指定するとインターフェイスを変更せずにEC在庫を取得する
-    default_client = StockClientProxy.new(system_user,EcStockAdapter.new(ECStock.new))
+    default_client = StockClientProxy.new(system_user,EcStockAdapter.new(ECStockClient.new))
     ec_amount = default_client.get_stock(3)
     render json: {store_amount: store_amount, ec_amount: ec_amount}, status: 200
   end
