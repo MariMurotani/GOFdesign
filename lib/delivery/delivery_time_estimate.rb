@@ -1,4 +1,5 @@
 class DeliveryTimeEstimate
+  attr_reader :processes
   @processes = Array.new
   def initialize(product, amount, postal_code)
     @processes = Array.new
@@ -12,7 +13,6 @@ class DeliveryTimeEstimate
     Time.zone.now.since((time_required.sum).days)
   end
   def define_delivery_process
-    binding.pry
     if (@product.stock.ec_stock_amount + @product.stock.store_stock_amount) < @amount
       @processes << Delivery::FactoryOrder.new
     elsif @product.stock.ec_stock_amount > @amount

@@ -38,8 +38,8 @@ class TestController < ApplicationController
     # 関東: 1000000
     # 沖縄: 9000000
     shopper = Account.where(account_type: Account.account_types[:shopper]).last
-    delivery_time_estimate = DeliveryTimeEstimate.new(2,1, "1000000")
-    render json: {delivery_date_time:  delivery_time_estimate.delivery_date_time, process: order_service.processes}, status: 200
+    delivery_time_estimate = DeliveryTimeEstimate.new(Product.find(2),1, "1000000")
+    render json: {delivery_date_time:  delivery_time_estimate.delivery_date_time, process: delivery_time_estimate.processes}, status: 200
   end
 
   def create_order
