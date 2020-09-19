@@ -45,8 +45,6 @@ class TestController < ApplicationController
   def create_order
     shopper = Account.where(account_type: Account.account_types[:shopper]).last
     product = Product.all.last
-    shopper = Account.where(account_type: Account.account_types[:shopper]).last
-    product = Product.all.last
     ActiveRecord::Base.transaction do
       order = Order.create({
            account: shopper
