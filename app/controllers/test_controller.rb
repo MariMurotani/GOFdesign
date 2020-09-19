@@ -45,33 +45,47 @@ class TestController < ApplicationController
   def create_order
     shopper = Account.where(account_type: Account.account_types[:shopper]).last
     product = Product.all.last
+    shopper = Account.where(account_type: Account.account_types[:shopper]).last
+    product = Product.all.last
     ActiveRecord::Base.transaction do
       order = Order.create({
-        account: shopper
-      })
+           account: shopper
+       })
       ordered_product = OrderedProduct.create({
-        order: order,
-        product: product,
-        quantity: 1
+          order: order,
+          product: product,
+          quantity: 1
       })
-
-      total_price = Order::Billing::Price.new(20000)
-      discount_price = Order::Billing::Price.new(20000*0.13)
-      shipping_fee = Order::Billing::Price.new(300)
-
-      discounted_price = Order::Billing::Minus.new(total_price, discount_price).execute
-      billing_amount = Order::Billing::Plus.new(discounted_price, shipping_fee).execute
-
-      order_bill = OrderBill.create({
-        order: order,
-        total_price: total_price.get_operand_price,
-        discount_price: discount_price.get_operand_price,
-        shipping_fee: shipping_fee.get_operand_price,
-        billing_amount: billing_amount.get_operand_price
-      })
-
-      render json: {order: order, ordered_product: ordered_product, order_bill: order_bill}, status: 200
+      render json: {order: order, ordered_product: ordered_product}, status: 200
     end
+
+    # ActiveRecord::Base.transaction do
+    #   order = Order.create({
+    #     account: shopper
+    #   })
+    #   ordered_product = OrderedProduct.create({
+    #     order: order,
+    #     product: product,
+    #     quantity: 1
+    #   })
+    #
+    #   total_price = Order::Billing::Price.new(20000)
+    #   discount_price = Order::Billing::Price.new(20000*0.13)
+    #   shipping_fee = Order::Billing::Price.new(300)
+    #
+    #   discounted_price = Order::Billing::Minus.new(total_price, discount_price).execute
+    #   billing_amount = Order::Billing::Plus.new(discounted_price, shipping_fee).execute
+    #
+    #   order_bill = OrderBill.create({
+    #     order: order,
+    #     total_price: total_price.get_operand_price,
+    #     discount_price: discount_price.get_operand_price,
+    #     shipping_fee: shipping_fee.get_operand_price,
+    #     billing_amount: billing_amount.get_operand_price
+    #   })
+    #
+    #   render json: {order: order, ordered_product: ordered_product, order_bill: order_bill}, status: 200
+    #end
   end
 
   def order_builder
