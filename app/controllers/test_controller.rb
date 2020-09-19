@@ -100,7 +100,7 @@ class TestController < ApplicationController
 
   def order_builder_collection
     # リファクタリング前
-    @orders = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).limit(5)
+    @orders = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).limit(3)
     # リファクタリング後
     #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
     #query = OrderQuery::WithProduct.new(query).relation
