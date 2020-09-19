@@ -105,12 +105,14 @@ class TestController < ApplicationController
     #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
     #query = OrderQuery::WithProduct.new(query).relation
     order_builder_collection = OrderBuilderCollection.new(@orders)
-    [].tap do | result |
+    order_builder_collection.set_mask
+    order_builder_collection.visible_account
+    collection_result = [].tap do | result |
       order_builder_collection.each do | order_builder |
-        result << order_builder.set_mask.visible_account.visible_address.visible_order_details.to_json
+        result << order_builder.to_json
       end
     end
-    render json: {order: order_builder_collection.to_a}, status: 200
+    render json: {order: collection_result}, status: 200
   end
 
   def order_query
