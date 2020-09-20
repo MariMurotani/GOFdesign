@@ -1,6 +1,6 @@
 class ReportMail::HTMLReport < ReportMail::Report
   def output_start
-    <<"EOS"
+<<"EOS"
 <h1>注文情報</h1>
 EOS
   end
@@ -14,7 +14,7 @@ EOS
     result += "</ul>"
   end
   def output_body_start
-    <<"EOS"
+<<"EOS"
 <h1>商品情報</h1>
 EOS
   end
@@ -29,7 +29,7 @@ EOS
     result
   end
   def output_body_end
-    <<"EOS"
+<<"EOS"
 <hr>
 ■ 〇〇屋さん<br>
 〒 000-0000<br>
