@@ -1,4 +1,4 @@
-class MyPage
+class MypageService
   def initialize(account)
     @account = account
   end

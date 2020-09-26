@@ -15,7 +15,7 @@ class MypagesController < ApplicationController
   end
 
   def orders
-    orders = MyPage.new(@account).orders
+    orders = MypageService.new(@account).orders
     render json: orders, status: 200
   end
 end
