@@ -45,6 +45,8 @@ class OrderService
          billing_amount: billing_amount.get_operand_price
       })
     end
+  rescue ActiveRecord::RecordInvalid
+    raise 'Failed to create order'
   end
   def confirm!
     @order.order_status = Order.order_statuses["confirmed"]
