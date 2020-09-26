@@ -21,12 +21,6 @@ class OrderService
     @order.delivery_method = Order.delivery_methods["mail"] if method == 'mail'
     @order.delivery_method = Order.delivery_methods["express"] if method == 'express'
   end
-  def estimate_time
-    @ordered_products.each do | ordered_products |
-      product = Product.includes(:stock).find(ordered_products.id)
-      DeliveryTimeEstimate.new(product, ordered_products.amount, postal_code)
-    end
-  end
   def save!
     ActiveRecord::Base.transaction do
       @order.save!
