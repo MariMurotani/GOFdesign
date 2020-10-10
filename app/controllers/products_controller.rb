@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user, except: :auth_user
   before_action :initialize_with_authenticated_user, except: :auth_user
-
+  skip_before_action :verify_authenticity_token
   def initialize
     super
   end

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   resource :products do
     get 'auth_user'
+    post 'new'
     get 'list'
   end
 
