@@ -27,11 +27,4 @@ class OrdersController < ApplicationController
     @order_service.confirm!
     render json: @order_service, status:200
   end
-  def my_order
-    product = Product.find(1)
-    query = OrderQuery::WithAccount.new.by_account(@account)
-    query = OrderQuery::WithProduct.new(query.relation).by_product(product).order_by(:name)
-    query = query.relation.limit(10)
-    render json: {query: query}, status: 200
-  end
 end

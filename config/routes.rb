@@ -21,7 +21,6 @@ Rails.application.routes.draw do
     get 'auth_user'
     post 'new'
     post 'confirm'
-    get 'my_order'
   end
 
   resource :mypage do
