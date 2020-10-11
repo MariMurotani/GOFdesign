@@ -25,7 +25,7 @@ class OrderService
     ActiveRecord::Base.transaction do
       @order.save!
       @ordered_products.each do | ordered_product |
-        delivery_date_time = DeliveryTimeEstimate.new(ordered_product.product, ordered_product.quantity,@account.address.last.postal_code).delivery_date_time
+        delivery_date_time = DeliveryTimeEstimate.new(ordered_product.product, ordered_product.quantity,@account.address.last.postal_code).estimate_delivery_date_time
         ordered_product.attributes = {
           order: @order,
           expected_delivery_date: delivery_date_time
