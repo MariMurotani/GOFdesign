@@ -3,7 +3,7 @@ class UpdateStockInformationJob < ApplicationJob
 
   def perform(*args)
     # Do something later
-    @account = Account.system
+    @account = Account.system_user
     @product_service = ProductService.new(@account)
     @product_service.update_stock
   end

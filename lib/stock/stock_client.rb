@@ -9,6 +9,6 @@ class StockClient
     @store_stock.get_stock_from_store_api(id)
   end
   def add_operation_log
-    @local_logger.add_logs('Stock API Log', "Call #{@store_stock.name}", Account.system, Operation.dashboard)
+    @local_logger.add_logs('Stock API Log', "Call #{@store_stock.name}", Account.system_user, Operation.dashboard)
   end
 end

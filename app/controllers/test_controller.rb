@@ -7,7 +7,7 @@ class TestController < ApplicationController
   def index
     logger1 = AnyLogger.instance
     logger2 = AnyLogger.instance
-    logger2.add_logs('test','This is test for flush logs 1', Account.system, Operation.dashboard)
+    logger2.add_logs('test','This is test for flush logs 1', Account.system_user, Operation.dashboard)
     render json: {logger1: logger1.object_id, logger2: logger2.object_id}, status: 200
   end
 
@@ -26,7 +26,7 @@ class TestController < ApplicationController
 
     # Proxyデザイン
     # 引数にEC在庫を指定するとインターフェイスを変更せずにEC在庫を取得する
-    default_client = StockClientProxy.new(Account.system,EcStockAdapter.new(ECStockClient.new))
+    default_client = StockClientProxy.new(Account.system_user,EcStockAdapter.new(ECStockClient.new))
     # StockClientProxy::StockClientProxyAuthenticationError
     #shopper = Account.where(account_type: Account.account_types[:shopper]).last
     #default_client = StockClientProxy.new(shopper,EcStockAdapter.new(ECStockClient.new))
