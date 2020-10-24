@@ -40,7 +40,7 @@ address_new = Address.create(
 )
 
 Operation.create({
- sub_type:1,
+ sub_type: Operation.sub_types["admin"],
  name: "admin dashboard",
 })
 
