@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2020_08_10_025839) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_account_ranks_on_account_id"
+    t.index ["rank"], name: "index_account_ranks_on_rank"
   end
 
   create_table "accounts", force: :cascade do |t|
@@ -31,6 +32,8 @@ ActiveRecord::Schema.define(version: 2020_08_10_025839) do
     t.string "tel"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_accounts_on_email"
+    t.index ["tel"], name: "index_accounts_on_tel"
   end
 
   create_table "addresses", force: :cascade do |t|
@@ -43,6 +46,7 @@ ActiveRecord::Schema.define(version: 2020_08_10_025839) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_addresses_on_account_id"
+    t.index ["postal_code"], name: "index_addresses_on_postal_code"
   end
 
   create_table "logs", force: :cascade do |t|
@@ -52,6 +56,7 @@ ActiveRecord::Schema.define(version: 2020_08_10_025839) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_logs_on_account_id"
+    t.index ["description"], name: "index_logs_on_description"
     t.index ["operation_id"], name: "index_logs_on_operation_id"
   end
 
@@ -60,6 +65,8 @@ ActiveRecord::Schema.define(version: 2020_08_10_025839) do
     t.integer "sub_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_operations_on_name"
+    t.index ["sub_type"], name: "index_operations_on_sub_type"
   end
 
   create_table "order_bills", force: :cascade do |t|
@@ -92,6 +99,9 @@ ActiveRecord::Schema.define(version: 2020_08_10_025839) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_orders_on_account_id"
+    t.index ["delivery_method"], name: "index_orders_on_delivery_method"
+    t.index ["order_status"], name: "index_orders_on_order_status"
+    t.index ["payment_method"], name: "index_orders_on_payment_method"
   end
 
   create_table "products", force: :cascade do |t|
@@ -103,6 +113,8 @@ ActiveRecord::Schema.define(version: 2020_08_10_025839) do
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["ec_stock_id"], name: "index_products_on_ec_stock_id"
+    t.index ["store_stock_id"], name: "index_products_on_store_stock_id"
   end
 
   create_table "stocks", force: :cascade do |t|

@@ -5,6 +5,9 @@ class CreateOrders < ActiveRecord::Migration[5.2]
       t.integer :delivery_method, limit: 3
       t.integer :payment_method, limit: 3
       t.integer :order_status, limit: 3
+      t.index :delivery_method
+      t.index :payment_method
+      t.index :order_status
       t.timestamps
     end
   end
