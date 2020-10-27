@@ -1,5 +1,5 @@
 class AccountFactory < AbstractFactory
-  def self.create_user(type)
+  def self.create(type)
     if type == 'system'
       SystemAccount.new
     else
