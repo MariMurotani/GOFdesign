@@ -1,5 +1,5 @@
 class AbstractFactory
   def create(type)
-    raise 'Implement create user method'
+    raise 'Implement!'
   end
 end
