@@ -17,6 +17,7 @@ module GOFdesign
     # the framework and any gems in your application.
     config.active_record.observers = [:order_observer]
 
+    config.autoload_paths += %W(#{config.root}/app/models/factories)
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += %W(#{config.root}/lib/logger)
     config.autoload_paths += %W(#{config.root}/lib/delivery)
