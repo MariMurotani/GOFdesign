@@ -4,7 +4,7 @@ class StockClientProxy
     store_stock ||= StoreStockClient.new
     @store_stock = store_stock
     @local_logger = AnyLogger.instance
-    raise StockClientProxyAuthenticationError unless account.account_type == "system"
+    raise StockClientProxyAuthenticationError unless account.account_type == "systemadmin"
   end
   def get_stock(id)
     add_operation_log
