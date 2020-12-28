@@ -125,7 +125,7 @@ class TestController < ApplicationController
   end
 
   def send_mail_plain
-    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).all.last
+    @order = Order.eager_load(:products,account: [:addresses, :account_rank]).all.last
     # リファクタリング後
     #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
     #query = OrderQuery::WithProduct.new(query).relation
@@ -150,7 +150,7 @@ class TestController < ApplicationController
   end
 
   def send_mail_html
-    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).all.last
+    @order = Order.eager_load(:products,account: [:addresses, :account_rank]).all.last
     # リファクタリング後
     #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
     #query = OrderQuery::WithProduct.new(query).relation
@@ -175,7 +175,7 @@ class TestController < ApplicationController
   end
 
   def formatter_plain
-    @order = Order.eager_load([ordered_product: [:product],account: [:address, :account_rank]]).all.last
+    @order = Order.eager_load(:products,account: [:addresses, :account_rank]).all.last
     # リファクタリング後
     #query = OrderQuery::WithAccount.new(Order.where({id: 1})).relation
     #query = OrderQuery::WithProduct.new(query).relation
