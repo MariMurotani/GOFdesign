@@ -4,7 +4,7 @@ class OrderService
     @account = account
     if order_id.present?
       @order = Order.find(order_id)
-      @ordered_products = @order.ordered_product
+      @ordered_products = @order.ordered_products
       @order_bill = @order.order_bill
     else
       @order = Order.new({
@@ -25,7 +25,7 @@ class OrderService
     ActiveRecord::Base.transaction do
       @order.save!
       @ordered_products.each do | ordered_product |
-        delivery_date_time = DeliveryTimeEstimate.new(ordered_product.product, ordered_product.quantity,@account.address.last.postal_code).estimate_delivery_date_time
+        delivery_date_time = DeliveryTimeEstimate.new(ordered_product.product, ordered_product.quantity,@account.addresses.last.postal_code).estimate_delivery_date_time
         ordered_product.attributes = {
           order: @order,
           expected_delivery_date: delivery_date_time
