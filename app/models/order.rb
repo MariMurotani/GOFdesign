@@ -1,7 +1,7 @@
 class Order < ApplicationRecord
   include ActiveModel::Serialization
-  has_many :ordered_product, dependent: :destroy
-  has_many :product, through: :ordered_product
+  has_many :ordered_products, dependent: :destroy
+  has_many :products, through: :ordered_products
   belongs_to :account
   has_one :order_bill
   enum delivery_method: { express: 0, mail: 1 }

@@ -1,5 +1,5 @@
 class Log < ApplicationRecord
-  has_one :operation
+  belongs_to :operation
   def initialize(*)
     super
     self.created_at = Time.zone.now

@@ -1,8 +1,8 @@
 class Account < ApplicationRecord
   include ActiveModel::Serialization
-  has_many :order
+  has_many :oreders
   has_one :account_rank, dependent: :destroy
-  has_many :address, dependent: :destroy
+  has_many :addresses, dependent: :destroy
   enum account_type: { systemadmin: 0, administrator: 1, shopper: 2 }
   scope :system_user, -> { where(account_type: Account.account_types[:systemadmin]).last }
   def self.create_user(target)
