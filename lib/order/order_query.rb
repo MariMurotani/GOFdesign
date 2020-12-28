@@ -2,7 +2,7 @@ module OrderQuery
   class WithAccount
     attr_reader :relation
     def initialize(relation = Order.all)
-      @relation = relation.eager_load(account: [:address, :account_rank])
+      @relation = relation.eager_load(account: [:addresses, :account_rank])
     end
     def by_account(account)
       @relation = @relation.where(accounts: {id: account.id})
@@ -17,7 +17,7 @@ module OrderQuery
   class WithProduct
     attr_reader :relation
     def initialize(relation = Order.all)
-      @relation = relation.eager_load(ordered_product: [:product])
+      @relation = relation.eager_load(:products)
     end
     def by_product(relation=Order.all, product)
       @relation = @relation.where(products: {id: product.id})

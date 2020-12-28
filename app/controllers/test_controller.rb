@@ -117,10 +117,10 @@ class TestController < ApplicationController
 
   def order_query
     shopper = Account.where(account_type: Account.account_types[:shopper]).last
-    product = Product.find(1)
+    product = Product.all.last
     query = OrderQuery::WithAccount.new.by_account(shopper)
     query = OrderQuery::WithProduct.new(query.relation).by_product(product).order_by(:name)
-    query = query.relation.limit(10)
+    query = query.relation.limit(3)
     render json: {query: query}, status: 200
   end
 
