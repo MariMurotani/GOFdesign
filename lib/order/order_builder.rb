@@ -42,7 +42,7 @@ class OrderBuilder
         products: []
     }
     result[:products].tap do | result |
-      @order.ordered_product.each do | product |
+      @order.ordered_products.each do | product |
         result << {
           name: product.product.name,
           quantity: product.quantity,
@@ -53,7 +53,7 @@ class OrderBuilder
     result
   end
   def format_address
-    address = @order.account.address.first
+    address = @order.account.addresses.first
     if @mask
       {
         postal_code: address.postal_code,

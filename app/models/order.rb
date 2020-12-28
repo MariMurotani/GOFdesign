@@ -18,7 +18,7 @@ class Order < ApplicationRecord
       payment_method: nil,
       order_status: nil,
       created_at: nil,
-      ordered_product: nil
+      ordered_products: nil
     }
   end
 end
