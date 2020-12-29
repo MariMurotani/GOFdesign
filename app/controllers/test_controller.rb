@@ -183,6 +183,6 @@ class TestController < ApplicationController
     order_builder = OrderBuilder.new(@order)
     order_builder.set_mask.visible_account.visible_address.visible_order_details
     notify = ReportChat::Notify.new(order_builder, ReportChat::TextFormatter.new)
-    render plain: notify.output_report, status: 200
+    render plain: notify.output, status: 200
   end
 end

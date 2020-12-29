@@ -3,8 +3,8 @@ class ReportChat::Notify
     @order_builder = order_builder
     @formatter = formatter
   end
-  def output_report
-    @formatter.output_report(@order_builder)
+  def output
+    @formatter.output(@order_builder)
   end
   def notify_to_chat_room
     # TODO: SEND INROMATION
