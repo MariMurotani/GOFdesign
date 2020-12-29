@@ -5,8 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-require "#{Rails.root}/app/models/factories/abstract_factory.rb"
-require "#{Rails.root}/app/models/factories/account_factory.rb"
+#
+# Create Users
 a1 = AccountFactory.create('system')
 a1.attributes =	({
   name: "System User",
@@ -41,14 +41,16 @@ address_new = Address.create(
   country: "TestCounty",
 )
 
+# Create Operation For Logging Function
 Operation.create({
- sub_type: Operation.sub_types["admin"],
- name: "admin dashboard",
+  sub_type:1,
+  name: "admin dashboard",
 })
 
+# Create Products and other related information
 product = Product.create({
-  name: "test 1",
-  description: "test description 1",
+  name: "テスト商品",
+  description: "テスト商品の説明",
   ec_stock_id: 1,
   store_stock_id: 3,
   price: 1000
@@ -61,18 +63,18 @@ stock = Stock.create({
 })
 
 product2 = Product.create({
-   name: "test 2",
-   description: "test description 2",
-   ec_stock_id: 1,
-   store_stock_id: 3,
-   price: 1200
+name: "テスト商品2",
+description: "テスト商品の説明2",
+ec_stock_id: 1,
+store_stock_id: 3,
+price: 1200
 })
 
 stock2 = Stock.create({
-  product_id: product2.id,
-  ec_stock_amount: 3,
-  store_stock_amount: 1
+product_id: product2.id,
+ec_stock_amount: 3,
+store_stock_amount: 1
 })
 
-# Execute after 4.1.2
+# Execute after third chapter
 UpdateStockInformationJob.new.perform
