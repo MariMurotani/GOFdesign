@@ -36,10 +36,10 @@ class OrderService
       end
       @order_bill = OrderBill.create({
          order: @order,
-         total_price: get_calculated_prices[:total_price],
-         discount_price: get_calculated_prices[:discount_price],
-         shipping_fee: get_calculated_prices[:shipping_fee],
-         billing_amount: get_calculated_prices[:billing_amount]
+         total_price: calculated_prices[:total_price],
+         discount_price: calculated_prices[:discount_price],
+         shipping_fee: calculated_prices[:shipping_fee],
+         billing_amount: calculated_prices[:billing_amount]
       })
     end
   rescue ActiveRecord::RecordInvalid
@@ -53,7 +53,7 @@ class OrderService
     send_confirmed_mail(order_builder)
   end
   private
-  def get_calculated_prices
+  def calculated_prices
     total_price = Order::Billing::Price.new(@ordered_products.map(&:total_price).sum)
     discount_price = Order::Billing::Price.new(total_price.get_operand_price*0.13)
     shipping_fee = Order::Billing::Price.new(300)
