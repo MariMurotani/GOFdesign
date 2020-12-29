@@ -25,24 +25,21 @@ class OrderService
     ActiveRecord::Base.transaction do
       @order.save!
       @ordered_products.each do | ordered_product |
-        delivery_date_time = DeliveryTimeEstimate.new(ordered_product.product, ordered_product.quantity,@account.addresses.last.postal_code).estimate_delivery_date_time
+        delivery_date_time = DeliveryTimeEstimate.new(
+            ordered_product.product, ordered_product.quantity,@account.addresses.last.postal_code
+        ).estimate_delivery_date_time
         ordered_product.attributes = {
           order: @order,
           expected_delivery_date: delivery_date_time
         }
         ordered_product.save
       end
-      total_price = Order::Billing::Price.new(@ordered_products.map(&:total_price).sum)
-      discount_price = Order::Billing::Price.new(total_price.get_operand_price*0.13)
-      shipping_fee = Order::Billing::Price.new(300)
-      discounted_price = Order::Billing::Minus.new(total_price, discount_price).execute
-      billing_amount = Order::Billing::Plus.new(discounted_price, shipping_fee).execute
       @order_bill = OrderBill.create({
          order: @order,
-         total_price: total_price.get_operand_price,
-         discount_price: discount_price.get_operand_price,
-         shipping_fee: shipping_fee.get_operand_price,
-         billing_amount: billing_amount.get_operand_price
+         total_price: get_calculated_prices[:total_price],
+         discount_price: get_calculated_prices[:discount_price],
+         shipping_fee: get_calculated_prices[:shipping_fee],
+         billing_amount: get_calculated_prices[:billing_amount]
       })
     end
   rescue ActiveRecord::RecordInvalid
@@ -53,6 +50,23 @@ class OrderService
     @order.save!
     order_builder = OrderBuilder.new(@order)
     order_builder.set_mask.visible_account.visible_address.visible_order_details
+    send_confirmed_mail(order_builder)
+  end
+  private
+  def get_calculated_prices
+    total_price = Order::Billing::Price.new(@ordered_products.map(&:total_price).sum)
+    discount_price = Order::Billing::Price.new(total_price.get_operand_price*0.13)
+    shipping_fee = Order::Billing::Price.new(300)
+    discounted_price = Order::Billing::Minus.new(total_price, discount_price).execute
+    {
+      total_price: total_price,
+      discount_price: discount_price,
+      shipping_fee: shipping_fee,
+      discounted_price: discounted_price,
+      billing_amount: Order::Billing::Plus.new(discounted_price, shipping_fee).execute
+    }
+  end
+  def send_confirmed_mail(order_builder)
     text_report = ReportMail::TextReport.new(order_builder)
     mail = Mail.new
     mail.to = @account.email
