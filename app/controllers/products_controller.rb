@@ -2,18 +2,19 @@ class ProductsController < ApplicationController
   before_action :authenticate_user, except: :auth_user
   before_action :initialize_with_authenticated_user, except: :auth_user
   skip_before_action :verify_authenticity_token
+
   def initialize
     super
-  end
-
-  def auth_user
-    super(controller_name)
-    render json: {token: session[:token]}, status:200
   end
 
   def initialize_with_authenticated_user
     @product_service = ProductService.new(@account)
     @operation = Operation.where({name: "admin dashboard"}).last
+  end
+
+  def auth_user
+    super(controller_name)
+    render json: {token: session[:token]}, status:200
   end
 
   def new
