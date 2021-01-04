@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
     AnyLogger.instance.flush_logs
   end
 
+  private
   def authenticate_user
     params.require([:token])
     if params["token"].present? && params["token"] == session[:token]
