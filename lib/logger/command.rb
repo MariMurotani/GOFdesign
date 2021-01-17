@@ -1,4 +1,4 @@
-class Command
+class Command < Formatter
   def execute(rows)
 
   end

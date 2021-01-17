@@ -15,7 +15,7 @@ class AnyLogger
     @local_logs = @logs.dup
     @logs = Array.new
     @commands.each do | commands |
-      decorator = commands[:decorator].new(Decorators::SimpleFormatter.new(commands[:cmd].new))
+      decorator = commands[:decorator].new(SimpleFormatter.new(commands[:cmd].new))
       @local_logs.each do | log |
         decorator.format_line(log)
       end

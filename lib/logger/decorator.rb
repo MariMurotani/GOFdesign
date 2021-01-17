@@ -1,5 +1,5 @@
 require 'forwardable'
-class Decorator
+class Decorator < Formatter
   extend Forwardable
   delegate [:format_line, :pos, :execute] => :@real_formatter
   def initialize(real_formatter)
