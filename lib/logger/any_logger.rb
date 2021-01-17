@@ -2,8 +2,8 @@ require 'singleton'
 class AnyLogger
   include Singleton
   def initialize
-    @commands = Array.new
-    @logs = Array.new
+    @commands = []
+    @logs = []
   end
   def add_operation(command, decorator)
     @commands << {cmd: command, decorator: decorator}

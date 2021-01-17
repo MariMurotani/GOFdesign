@@ -16,7 +16,7 @@ class DeliveryTimeEstimate
     raise 'Undefined product error' if @product.nil?
     if (@product.stock.ec_stock_amount + @product.stock.store_stock_amount) < @amount
       @processes << Delivery::FactoryOrder.new
-    elsif @product.stock.ec_stock_amount > @amount
+    elsif @amount < @product.stock.ec_stock_amount
       @processes << Delivery::EcStock.new
     else
       @processes << Delivery::StoreStock.new
