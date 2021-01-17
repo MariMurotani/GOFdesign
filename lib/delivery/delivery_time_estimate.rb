@@ -1,8 +1,8 @@
 class DeliveryTimeEstimate
   attr_reader :processes
-  @processes = Array.new
+  @processes = []
   def initialize(product, amount, postal_code)
-    @processes = Array.new
+    @processes = []
     @product = product
     @amount = amount
     @postal_code = postal_code
