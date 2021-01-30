@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def flush_logger
     AnyLogger.instance.flush_logs
   end
@@ -20,7 +21,7 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_user(controller_name)
-    account = Account.where({name: params[:name]}).last
+    account = Account.where({ name: params[:name] }).last
     if params["password"].present? && account.password == params["password"]
       Encoding.default_internal = "UTF-8"
       token = Digest::MD5.hexdigest(controller_name)

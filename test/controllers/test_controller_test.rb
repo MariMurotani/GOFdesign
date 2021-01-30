@@ -5,5 +5,4 @@ class TestControllerTest < ActionDispatch::IntegrationTest
     get test_new_url
     assert_response :success
   end
-
 end

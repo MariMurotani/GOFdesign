@@ -12,7 +12,7 @@ class MypagesController < ApplicationController
 
   def auth_user
     super(controller_name)
-    render json: {token: session[:token]}, status:200
+    render json: { token: session[:token] }, status: 200
   end
 
   def orders

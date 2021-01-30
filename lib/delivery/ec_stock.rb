@@ -3,7 +3,8 @@ module Delivery
     def initialize
       @name = "EC在庫取得時間"
     end
-    def get_time_required
+
+    def time_required
       1
     end
   end

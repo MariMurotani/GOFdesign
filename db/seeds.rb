@@ -43,38 +43,38 @@ address_new = Address.create(
 
 # Create Operation For Logging Function
 Operation.create({
-  sub_type:1,
-  name: "admin dashboard",
-})
+                   sub_type: 1,
+                   name: "admin dashboard",
+                 })
 
 # Create Products and other related information
 product = Product.create({
-  name: "テスト商品",
-  description: "テスト商品の説明",
-  ec_stock_id: 1,
-  store_stock_id: 3,
-  price: 1000
-})
+                           name: "テスト商品",
+                           description: "テスト商品の説明",
+                           ec_stock_id: 1,
+                           store_stock_id: 3,
+                           price: 1000
+                         })
 
 stock = Stock.create({
-  product_id: product.id,
-  ec_stock_amount: 3,
-  store_stock_amount: 1
-})
+                       product_id: product.id,
+                       ec_stock_amount: 3,
+                       store_stock_amount: 1
+                     })
 
 product2 = Product.create({
-name: "テスト商品2",
-description: "テスト商品の説明2",
-ec_stock_id: 1,
-store_stock_id: 3,
-price: 1200
-})
+                            name: "テスト商品2",
+                            description: "テスト商品の説明2",
+                            ec_stock_id: 1,
+                            store_stock_id: 3,
+                            price: 1200
+                          })
 
 stock2 = Stock.create({
-product_id: product2.id,
-ec_stock_amount: 3,
-store_stock_amount: 1
-})
+                        product_id: product2.id,
+                        ec_stock_amount: 3,
+                        store_stock_amount: 1
+                      })
 
 # Execute after third chapter
 UpdateStockInformationJob.new.perform

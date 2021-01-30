@@ -1,7 +1,7 @@
 class UpdateStockInformationJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
+  def perform(*_args)
     # Do something later
     @account = Account.system_user
     @product_service = ProductService.new(@account)

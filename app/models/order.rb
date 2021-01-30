@@ -11,6 +11,7 @@ class Order < ApplicationRecord
   def set_default
     self.order_status ||= Order.order_statuses["created"]
   end
+
   def attributes
     {
       id: nil,
