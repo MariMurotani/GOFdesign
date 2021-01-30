@@ -10,7 +10,7 @@ class DeliveryTimeEstimate
 
   def estimate_delivery_date_time
     self.define_delivery_process
-    time_required = @processes.map(&:get_time_required)
+    time_required = @processes.map(&:time_required)
     Time.zone.now.since((time_required.sum).days)
   end
 

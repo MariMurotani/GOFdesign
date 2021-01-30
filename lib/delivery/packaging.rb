@@ -4,7 +4,7 @@ module Delivery
       @name = "梱包"
     end
 
-    def get_time_required
+    def time_required
       1
     end
   end
