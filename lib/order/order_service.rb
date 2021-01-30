@@ -19,7 +19,7 @@ class OrderService
     @ordered_products << OrderedProduct.new({ product_id: product_id, quantity: amount })
   end
 
-  def set_delivery_method(method)
+  def delivery_method=(method)
     @order.delivery_method = Order.delivery_methods["mail"] if method == 'mail'
     @order.delivery_method = Order.delivery_methods["express"] if method == 'express'
   end
