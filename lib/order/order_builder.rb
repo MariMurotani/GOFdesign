@@ -47,9 +47,9 @@ class OrderBuilder
       payment_method: @order.payment_method,
       products: []
     }
-    result[:products].tap do |_result_products|
+    result[:products].tap do |result_products|
       @order.ordered_products.each do |product|
-        result << {
+        result_products << {
           name: product.product.name,
           quantity: product.quantity,
           expected_delivery_date: product[:expected_delivery_date]&.strftime('%Y/%m/%d')
