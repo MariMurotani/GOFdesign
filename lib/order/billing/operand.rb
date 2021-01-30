@@ -4,7 +4,7 @@ module Order::Billing
       raise 'Abstract Class !!'
     end
 
-    def get_operand_price
+    def operand_price
       raise 'Abstract Method !!'
     end
   end

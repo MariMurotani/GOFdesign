@@ -77,10 +77,10 @@ class TestController < ApplicationController
     #
     #   order_bill = OrderBill.create({
     #     order: order,
-    #     total_price: total_price.get_operand_price,
-    #     discount_price: discount_price.get_operand_price,
-    #     shipping_fee: shipping_fee.get_operand_price,
-    #     billing_amount: billing_amount.get_operand_price
+    #     total_price: total_price.operand_price,
+    #     discount_price: discount_price.operand_price,
+    #     shipping_fee: shipping_fee.operand_price,
+    #     billing_amount: billing_amount.operand_price
     #   })
     #
     #   render json: {order: order, ordered_product: ordered_product, order_bill: order_bill}, status: 200

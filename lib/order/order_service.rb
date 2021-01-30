@@ -61,7 +61,7 @@ class OrderService
 
   def calculated_prices
     total_price = Order::Billing::Price.new(@ordered_products.map(&:total_price).sum)
-    discount_price = Order::Billing::Price.new(total_price.get_operand_price * 0.13)
+    discount_price = Order::Billing::Price.new(total_price.operand_price * 0.13)
     shipping_fee = Order::Billing::Price.new(300)
     discounted_price = Order::Billing::Minus.new(total_price, discount_price).execute
     {

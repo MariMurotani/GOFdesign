@@ -6,7 +6,7 @@ module Order::Billing
     end
 
     def execute
-      Order::Billing::Price.new(@operand1.get_operand_price + @operand2.get_operand_price)
+      Order::Billing::Price.new(@operand1.operand_price + @operand2.operand_price)
     end
   end
 end
