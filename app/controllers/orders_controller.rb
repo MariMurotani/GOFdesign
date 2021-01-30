@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
     params[:orders].each do |order|
       @order_service.add_item(order[1][:id], order[1][:amount])
     end
-    @order_service.delivery_method=(params[:delivery_method])
+    @order_service.delivery_method = (params[:delivery_method])
     @order_service.save!
     session[:order_service_id] = @order_service.order.id
     render json: @order_service, status: 200
