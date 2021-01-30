@@ -5,6 +5,7 @@ class OrderedProduct < ApplicationRecord
   def total_price
     product.price * quantity
   end
+
   def attributes
     {
       product: nil

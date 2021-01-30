@@ -9,8 +9,10 @@ module Order::Billing
       @operand_price = price
       @bill_type = Order::Billing::Currency::YEN
     end
+
     def get_operand_price
       return @operand_price if @bill_type == Currency::YEN
+
       raise 'Other currency types are not implemented!'
     end
   end

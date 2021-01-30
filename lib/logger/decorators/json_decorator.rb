@@ -6,6 +6,7 @@ class Decorators::JsonDecorator < Decorator
         description: row[:description],
         account: row[:account].id,
         operation: row[:operation].name
-      }.to_json)
+      }.to_json
+    )
   end
 end

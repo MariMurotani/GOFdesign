@@ -8,13 +8,14 @@ class Account < ApplicationRecord
   def self.create_user(target)
     case target
     when 'SYSTEM'
-      self.new({account_type: Account.account_types[:systemadmin]})
+      self.new({ account_type: Account.account_types[:systemadmin] })
     when 'ADMIN'
-      self.new({account_type: Account.account_types[:administrator]})
+      self.new({ account_type: Account.account_types[:administrator] })
     when 'SHOPPER'
-      self.new({account_type: Account.account_types[:shopper]})
+      self.new({ account_type: Account.account_types[:shopper] })
     end
   end
+
   def attributes
     {
       'id': nil,

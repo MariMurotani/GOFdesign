@@ -19,15 +19,15 @@ class ProductService
   end
 
   def update_picture
-    #　TODO: 画像を受け取りbase 64エンコードをしてデータを格納するメソッド
+    # 　TODO: 画像を受け取りbase 64エンコードをしてデータを格納するメソッド
   end
 
   def update_stock
-    Product.all.each do | product |
+    Product.all.each do |product|
       default_client = StockClientProxy.new(@account)
       store_amount = default_client.get_stock(product.store_stock_id)
       # 引数にEC在庫を指定するとインターフェイスを変更せずにEC在庫を取得する
-      default_client = StockClientProxy.new(@account,EcStockAdapter.new(ECStockClient.new))
+      default_client = StockClientProxy.new(@account, EcStockAdapter.new(ECStockClient.new))
       ec_amount = default_client.get_stock(product.ec_stock_id)
       stock = product.stock || product.build_stock
       stock.attributes = {
