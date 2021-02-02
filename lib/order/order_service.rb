@@ -15,7 +15,7 @@ class OrderService
     end
   end
 
-  def add_item(product_id, amount)
+  def add_item=(product_id, amount)
     @ordered_products << OrderedProduct.new({ product_id: product_id, quantity: amount })
   end
 
