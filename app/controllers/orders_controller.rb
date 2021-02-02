@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
   def new
     @order_service = OrderService.new(@account)
     params[:orders].each do |order|
-      @order_service.add_item=(order[1][:id], order[1][:amount])
+      @order_service.add_item(order[1][:id], order[1][:amount])
     end
     @order_service.delivery_method = (params[:delivery_method])
     @order_service.save!
