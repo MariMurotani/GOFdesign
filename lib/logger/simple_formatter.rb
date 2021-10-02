@@ -1,5 +1,6 @@
 class SimpleFormatter
   attr_reader :account
+
   def initialize(command)
     @command = command
     @result = []

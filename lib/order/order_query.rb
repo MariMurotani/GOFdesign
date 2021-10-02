@@ -1,6 +1,7 @@
 module OrderQuery
   class WithAccount
     attr_reader :relation
+
     def initialize(relation = Order.all)
       @relation = relation.eager_load(account: [:addresses, :account_rank])
     end
@@ -16,8 +17,10 @@ module OrderQuery
       self
     end
   end
+
   class WithProduct
     attr_reader :relation
+
     def initialize(relation = Order.all)
       @relation = relation.eager_load(:products)
     end

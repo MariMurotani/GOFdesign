@@ -4,6 +4,7 @@ module ReportChat
       raise 'This is abstract method'
     end
   end
+
   class TextFormatter < Formatter
     def output(order_builder)
       result = ""

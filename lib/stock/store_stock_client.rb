@@ -1,5 +1,6 @@
 class StoreStockClient
   attr_reader :name
+
   def initialize
     @url = 'http://test.jp/'
     @name = "Store Stock"

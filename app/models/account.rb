@@ -4,7 +4,7 @@ class Account < ApplicationRecord
   has_one :account_rank, dependent: :destroy
   has_many :addresses, dependent: :destroy
   enum account_type: { systemadmin: 0, administrator: 1, shopper: 2 }
-  scope :system_user, -> { where(account_type: Account.account_types[:systemadmin]).last }
+  scope :system_user, -> { where({account_type: :systemadmin}).last }
 
   def attributes
     {

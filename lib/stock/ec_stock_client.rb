@@ -1,5 +1,6 @@
 class ECStockClient
   attr_reader :name
+
   def initialize
     @url = 'http://test.jp/'
     @name = "EC Stock"

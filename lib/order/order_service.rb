@@ -1,5 +1,6 @@
 class OrderService
   attr_reader :order, :ordered_products, :order_bill
+
   def initialize(account, order_id = nil)
     @account = account
     if order_id.present?

@@ -1,6 +1,7 @@
 class StockClientProxy
   class StockClientProxyAuthenticationError < StandardError; end
-  def initialize(account, store_stock=nil)
+
+  def initialize(account, store_stock = nil)
     store_stock ||= StoreStockClient.new
     @store_stock = store_stock
     @local_logger = AnyLogger.instance

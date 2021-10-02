@@ -4,6 +4,7 @@ module Order::Billing
     DOLL = 2
     EURO = 3
   end
+
   class Price < Operand
     def initialize(price)
       @operand_price = price
